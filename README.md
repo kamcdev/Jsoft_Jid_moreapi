@@ -201,7 +201,7 @@ X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   "message": "获取用户信息成功",
   "user": {
     "username": "用户名",
-    "avatar_url": "http://154.37.221.153/uploads/images/default/avatar.svg"
+    "avatar_url": "http://154.37.221.153:38871/uploads/images/default/avatar.svg"
   }
 }
 ```
@@ -236,7 +236,7 @@ import json
 import time
 
 # 步骤1: 获取state值
-url_authorize = "http://154.37.221.153/api/oauth/authorize"
+url_authorize = "http://154.37.221.153:38871/api/oauth/authorize"
 headers = {
     "X-API-Key": "ml_your_api_key",
     "Content-Type": "application/json"
@@ -250,7 +250,7 @@ if authorize_data.get('success'):
     print(f"获取state成功: {state}")
     
     # 步骤2: 使用用户凭证和state获取授权码
-    url_login = "http://154.37.221.153/api/oauth/login"
+    url_login = "http://154.37.221.153:38871/api/oauth/login"
     payload_login = {
         "user_id": "testid",
         "password": "Test123456",
@@ -265,7 +265,7 @@ if authorize_data.get('success'):
         print(f"获取授权码成功: {code}")
         
         # 步骤3: 使用授权码和state获取访问令牌
-        url_token = "http://154.37.221.153/api/oauth/token"
+        url_token = "http://154.37.221.153:38871/api/oauth/token"
         payload_token = {
             "code": code,
             "state": state
@@ -295,7 +295,7 @@ else:
 import requests
 import json
 
-url = "http://154.37.221.153/api/oauth/user/update"
+url = "http://154.37.221.153:38871/api/oauth/user/update"
 headers = {
     "X-API-Key": "ml_your_api_key",
     "Content-Type": "application/json"
@@ -316,7 +316,7 @@ print(response.json())
 import requests
 import json
 
-url = "http://154.37.221.153/api/oauth/user/info"
+url = "http://154.37.221.153:38871/api/oauth/user/info"
 headers = {
     "X-API-Key": "ml_your_api_key",
     "Content-Type": "application/json"
@@ -336,7 +336,7 @@ print(response.json())
 
 ```javascript
 // 步骤1: 获取state值
-fetch('http://154.37.221.153/api/oauth/authorize', {
+fetch('http://154.37.221.153:38871/api/oauth/authorize', {
   method: 'GET',
   headers: {
     'X-API-Key': 'ml_your_api_key',
@@ -350,7 +350,7 @@ fetch('http://154.37.221.153/api/oauth/authorize', {
     console.log(`获取state成功: ${state}`);
     
     // 步骤2: 使用用户凭证和state获取授权码
-    return fetch('http://154.37.221.153/api/oauth/login', {
+    return fetch('http://154.37.221.153:38871/api/oauth/login', {
       method: 'POST',
       headers: {
         'X-API-Key': 'ml_your_api_key',
@@ -374,7 +374,7 @@ fetch('http://154.37.221.153/api/oauth/authorize', {
     console.log(`获取授权码成功: ${code}`);
     
     // 步骤3: 使用授权码和state获取访问令牌
-    return fetch('http://154.37.221.153/api/oauth/token', {
+    return fetch('http://154.37.221.153:38871/api/oauth/token', {
       method: 'POST',
       headers: {
         'X-API-Key': 'ml_your_api_key',
@@ -408,7 +408,7 @@ fetch('http://154.37.221.153/api/oauth/authorize', {
 #### 使用JavaScript调用信息修改API（以修改用户名为例）
 
 ```javascript
-fetch('http://154.37.221.153/api/oauth/user/update', {
+fetch('http://154.37.221.153:38871/api/oauth/user/update', {
   method: 'POST',
   headers: {
     'X-API-Key': 'ml_your_api_key',
@@ -427,7 +427,7 @@ fetch('http://154.37.221.153/api/oauth/user/update', {
 #### 使用JavaScript调用获取用户信息API
 
 ```javascript
-fetch('http://154.37.221.153/api/oauth/user/info', {
+fetch('http://154.37.221.153:38871/api/oauth/user/info', {
   method: 'POST',
   headers: {
     'X-API-Key': 'ml_your_api_key',
@@ -457,7 +457,7 @@ async function oauthFlow() {
     };
     
     // 步骤1: 获取state值
-    const authorizeResponse = await axios.get('http://154.37.221.153/api/oauth/authorize', { headers });
+    const authorizeResponse = await axios.get('http://154.37.221.153:38871/api/oauth/authorize', { headers });
     
     if (!authorizeResponse.data.success) {
       throw new Error(`获取state失败: ${authorizeResponse.data.message}`);
@@ -467,7 +467,7 @@ async function oauthFlow() {
     console.log(`获取state成功: ${state}`);
     
     // 步骤2: 使用用户凭证和state获取授权码
-    const loginResponse = await axios.post('http://154.37.221.153/api/oauth/login', {
+    const loginResponse = await axios.post('http://154.37.221.153:38871/api/oauth/login', {
       user_id: 'testid',
       password: 'Test123456',
       state: state
@@ -481,7 +481,7 @@ async function oauthFlow() {
     console.log(`获取授权码成功: ${code}`);
     
     // 步骤3: 使用授权码和state获取访问令牌
-    const tokenResponse = await axios.post('http://154.37.221.153/api/oauth/token', {
+    const tokenResponse = await axios.post('http://154.37.221.153:38871/api/oauth/token', {
       code: code,
       state: state
     }, { headers });
@@ -510,7 +510,7 @@ const axios = require('axios');
 
 async function updateUser() {
   try {
-    const response = await axios.post('http://154.37.221.153/api/oauth/user/update', {
+    const response = await axios.post('http://154.37.221.153:38871/api/oauth/user/update', {
       user_id: 'testid',
       username: 'newusername'
     }, {
@@ -535,7 +535,7 @@ const axios = require('axios');
 
 async function getUserInfo() {
   try {
-    const response = await axios.post('http://154.37.221.153/api/oauth/user/info', {
+    const response = await axios.post('http://154.37.221.153:38871/api/oauth/user/info', {
       user_id: 'testid'
     }, {
       headers: {
