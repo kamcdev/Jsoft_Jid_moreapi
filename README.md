@@ -19,27 +19,27 @@ Moreid API 文档
 
 - [认证方式](#认证方式)
 - [API端点](#api端点)
-  - [1. OAuth授权初始化](#1-oauth授权初始化)
-  - [2. 用户登录获取授权码](#2-用户登录获取授权码)
-  - [3. 使用授权码获取访问令牌](#3-使用授权码获取访问令牌)
-  - [4. 用户信息修改](#4-用户信息修改)
-  - [5. 获取用户信息](#5-获取用户信息)
-  - [6. 获取一次性确认码](#6-获取一次性确认码)
-  - [7. 用户确认页面](#7-用户确认页面)
-  - [8. 生成登录码](#8-生成登录码)
-  - [9. 安全登录接口](#9-安全登录接口)
-  - [错误码说明](#错误码说明)
+    - [1. OAuth授权初始化](#1-oauth授权初始化)
+    - [2. 用户登录获取授权码](#2-用户登录获取授权码)
+    - [3. 使用授权码获取访问令牌](#3-使用授权码获取访问令牌)
+    - [4. 用户信息修改](#4-用户信息修改)
+    - [5. 获取用户信息](#5-获取用户信息)
+    - [6. 获取一次性确认码](#6-获取一次性确认码)
+    - [7. 用户确认页面](#7-用户确认页面)
+    - [8. 生成登录码](#8-生成登录码)    
+    - [9. 安全登录接口](#9-安全登录接口)
+- [错误码说明](#错误码说明)
 - [使用示例](#使用示例)
-  - [使用Python调用API](#使用python调用api)
-    - [使用Python调用OAuth登录流程](#使用python调用oauth登录流程)
-    - [使用Python调用OAuth安全登录流程](#使用python调用oauth安全登录流程)
-    - [使用Python调用信息修改API（以修改用户名为例）](#使用python调用信息修改api以修改用户名为例)
-    - [使用Python调用获取用户信息API](#使用python调用获取用户信息api)
-  - [使用JavaScript调用API](#使用javascript调用api)
-    - [使用JavaScript调用OAuth登录流程](#使用javascript调用oauth登录流程)
-    - [使用JavaScript调用OAuth安全登录流程](#使用javascript调用oauth安全登录流程)
-    - [使用JavaScript调用信息修改API（以修改用户名为例）](#使用javascript调用信息修改api以修改用户名为例)
-    - [使用JavaScript调用获取用户信息API](#使用javascript调用获取用户信息api)
+    - [使用Python调用API](#使用python调用api)
+        - [使用Python调用OAuth登录流程](#使用python调用oauth登录流程)
+        - [使用Python调用OAuth安全登录流程](#使用python调用oauth安全登录流程)
+        - [使用Python调用信息修改API（以修改用户名为例）](#使用python调用信息修改api以修改用户名为例)
+        - [使用Python调用获取用户信息API](#使用python调用获取用户信息api)
+    - [使用JavaScript调用API](#使用javascript调用api)
+        - [使用JavaScript调用OAuth登录流程](#使用javascript调用oauth登录流程)
+        - [使用JavaScript调用OAuth安全登录流程](#使用javascript调用oauth安全登录流程)
+        - [使用JavaScript调用信息修改API（以修改用户名为例）](#使用javascript调用信息修改api以修改用户名为例)
+        - [使用JavaScript调用获取用户信息API](#使用javascript调用获取用户信息api)
 - [注意事项](#注意事项)
 
 ## <a id="认证方式"></a>认证方式
@@ -165,11 +165,14 @@ URL: /api/oauth/user/update
 方法:POST
 格式:application/json
 
+请求头:
+
+· Authorization: Bearer {access_token} - 必须提供有效的访问令牌
+
 请求参数:
 
 · user_id: 用户ID（必填）
 · state: 从授权初始化接口获取的state值（必填）
-· cookie: 目标用户的cookie（必填）
 · username: 新用户名（可选）
 · bio: 个人简介（可选）
 
@@ -670,24 +673,31 @@ def update_user_info():
         return
     print(f"✓ 获取state成功: {state}")
     
-    # 假设已经获取到用户的cookie
-    # 注意：实际使用时，需要通过适当的方式获取用户cookie
-    user_cookie = "your_user_cookie_here"  # 例如: "session=.eJ..."
+    # 假设已经获取到访问令牌（通过OAuth流程获取）
+    access_token = "token_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  # 替换为实际获取的访问令牌
+    token_type = "Bearer"
     
     url = f"{BASE_URL}/api/oauth/user/update"
+    
+    # 创建请求头，添加Bearer认证
+    headers = {
+        "X-API-Key": API_KEY,
+        "Content-Type": "application/json",
+        "Authorization": f"{token_type} {access_token}"
+    }
+    
     payload = {
         "user_id": "testid",
         "username": "newusername",
-        "state": state,  # 添加state参数
-        "cookie": user_cookie  # 添加cookie参数
+        "state": state  # 添加state参数
     }
     
     try:
         print(f"正在发送请求到: {url}")
-        print(f"请求头: {session.headers}")
+        print(f"请求头: {headers}")
         print(f"请求数据: {json.dumps(payload, indent=2, ensure_ascii=False)}")
         
-        response = session.post(url, json=payload)
+        response = session.post(url, headers=headers, json=payload)
         
         print(f"\nHTTP状态码: {response.status_code}")
         print(f"响应内容: {response.text}")
@@ -1139,26 +1149,31 @@ async function updateUserInfo() {
     }
     console.log(`✓ 获取state成功: ${state}`);
     
-    // 假设已经获取到用户的cookie
-    // 注意：实际使用时，需要通过适当的方式获取用户cookie
-    const userCookie = "your_user_cookie_here";  // 例如: "session=.eJ..."
+    // 假设已经获取到访问令牌（通过OAuth流程获取）
+    const accessToken = "token_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+    const tokenType = "Bearer";
+    
+    // 创建包含Bearer认证的请求头
+    const authHeaders = {
+        ...headers,
+        "Authorization": `${tokenType} ${accessToken}`
+    };
     
     const url = `${BASE_URL}/api/oauth/user/update`;
     const payload = {
         "user_id": "testid",
         "username": "newusername",
-        "state": state,  // 添加state参数
-        "cookie": userCookie  // 添加cookie参数
+        "state": state  // 添加state参数
     };
     
     try {
         console.log(`正在发送请求到: ${url}`);
-        console.log(`请求头:`, headers);
+        console.log(`请求头:`, authHeaders);
         console.log(`请求数据:`, JSON.stringify(payload, null, 2));
         
         const response = await fetch(url, {
             method: 'POST',
-            headers: headers,
+            headers: authHeaders,
             body: JSON.stringify(payload)
         });
         
