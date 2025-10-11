@@ -19,27 +19,27 @@ Moreid API 文档
 
 - [认证方式](#认证方式)
 - [API端点](#api端点)
-  - [1. OAuth授权初始化](#1-oauth授权初始化)
-  - [2. 用户登录获取授权码](#2-用户登录获取授权码)
-  - [3. 使用授权码获取访问令牌](#3-使用授权码获取访问令牌)
-  - [4. 用户信息修改](#4-用户信息修改)
-  - [5. 获取用户信息](#5-获取用户信息)
-  - [6. 获取一次性确认码](#6-获取一次性确认码)
-  - [7. 用户确认页面](#7-用户确认页面)
-  - [8. 生成登录码](#8-生成登录码)
-  - [9. 安全登录接口](#9-安全登录接口)
+- [1. OAuth授权初始化](#1-oauth授权初始化)
+- [2. 用户登录获取授权码](#2-用户登录获取授权码)
+- [3. 使用授权码获取访问令牌](#3-使用授权码获取访问令牌)
+- [4. 用户信息修改](#4-用户信息修改)
+- [5. 获取用户信息](#5-获取用户信息)
+- [6. 获取一次性确认码](#6-获取一次性确认码)
+- [7. 用户确认页面](#7-用户确认页面)
+- [8. 生成登录码](#8-生成登录码)
+- [9. 安全登录接口](#9-安全登录接口)
 - [错误码说明](#错误码说明)
 - [使用示例](#使用示例)
-  - [使用Python调用API](#使用python调用api)
-    - [使用Python调用OAuth登录流程](#使用python调用oauth登录流程)
-    - [使用Python调用OAuth安全登录流程](#使用python调用oauth安全登录流程)
-    - [使用Python调用信息修改API（以修改用户名为例）](#使用python调用信息修改api以修改用户名为例)
-    - [使用Python调用获取用户信息API](#使用python调用获取用户信息api)
-  - [使用JavaScript调用API](#使用javascript调用api)
-    - [使用JavaScript调用OAuth登录流程](#使用javascript调用oauth登录流程)
-    - [使用JavaScript调用OAuth安全登录流程](#使用javascript调用oauth安全登录流程)
-    - [使用JavaScript调用信息修改API（以修改用户名为例）](#使用javascript调用信息修改api以修改用户名为例)
-    - [使用JavaScript调用获取用户信息API](#使用javascript调用获取用户信息api)
+- [使用Python调用API](#使用python调用api)
+- [使用Python调用OAuth登录流程](#使用python调用oauth登录流程)
+- [使用Python调用OAuth安全登录流程](#使用python调用oauth安全登录流程)
+- [使用Python调用信息修改API（以修改用户名为例）](#使用python调用信息修改api以修改用户名为例)
+- [使用Python调用获取用户信息API](#使用python调用获取用户信息api)
+- [使用JavaScript调用API](#使用javascript调用api)
+- [使用JavaScript调用OAuth登录流程](#使用javascript调用oauth登录流程)
+- [使用JavaScript调用OAuth安全登录流程](#使用javascript调用oauth安全登录流程)
+- [使用JavaScript调用信息修改API（以修改用户名为例）](#使用javascript调用信息修改api以修改用户名为例)
+- [使用JavaScript调用获取用户信息API](#使用javascript调用获取用户信息api)
 - [注意事项](#注意事项)
 
 ## <a id="认证方式"></a>认证方式
@@ -216,7 +216,7 @@ URL: /api/oauth/user/info
   "message": "获取用户信息成功",
   "user": {
     "username": "用户名",
-    "avatar_url": "http://154.37.221.153:38871/uploads/images/default/avatar.svg"
+    "avatar_url": "https://more.jsoftstudio.top/uploads/images/default/avatar.svg"
   }
 }
 ```
@@ -356,7 +356,7 @@ import requests
 import json
 
 # API基础URL
-BASE_URL = "http://154.37.221.153:38871"
+BASE_URL = "https://more.jsoftstudio.top"
 # API密钥
 API_KEY = "ml_your_api_key"
 
@@ -481,7 +481,7 @@ import webbrowser
 from getpass import getpass
 
 # API基础URL
-BASE_URL = "http://154.37.221.153:38871"
+BASE_URL = "https://more.jsoftstudio.top"
 # API密钥
 API_KEY = "ml_your_api_key"
 
@@ -630,7 +630,7 @@ import requests
 import json
 
 # API基础URL
-BASE_URL = "http://154.37.221.153:38871"
+BASE_URL = "https://more.jsoftstudio.top"
 # API密钥
 API_KEY = "ml_your_api_key"
 
@@ -725,7 +725,7 @@ import requests
 import json
 
 # API基础URL
-BASE_URL = "http://154.37.221.153:38871"
+BASE_URL = "https://more.jsoftstudio.top"
 # API密钥
 API_KEY = "ml_your_api_key"
 
@@ -790,7 +790,7 @@ if __name__ == "__main__":
 
 ```javascript
 // API基础URL
-const BASE_URL = "http://154.37.221.153:38871";
+const BASE_URL = "https://more.jsoftstudio.top";
 // API密钥
 const API_KEY = "ml_your_api_key";
 
