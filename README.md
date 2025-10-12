@@ -28,6 +28,7 @@ Moreid API 文档
   - [7. 用户确认页面](#7-用户确认页面)
   - [8. 生成登录码](#8-生成登录码)
   - [9. 安全登录接口](#9-安全登录接口)
+  - [10 使用访问令牌获取用户信息](#10-使用访问令牌获取用户信息)
 - [错误码说明](#错误码说明)
 - [使用示例](#使用示例)
   - [使用Python调用API](#使用python调用api)
@@ -146,7 +147,7 @@ URL: /api/oauth/token
   "message": "获取访问令牌成功",
   "access_token": "token_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "token_type": "Bearer",
-  "expires_in": 3600
+  "expires_in": 864000
 }
 ```
 
@@ -335,6 +336,41 @@ URL: /api/oauth/login_safe
   "message": "错误信息"
 }
 ```
+## <a id="10-使用访问令牌获取用户信息"></a>10. 使用访问令牌获取用户信息
+
+URL: /api/oauth/token/user
+方法:GET
+格式:application/json
+
+请求头:
+
+· Authorization: Bearer {access_token} - 必须提供有效的访问令牌
+
+成功响应:
+
+```json
+{
+  "success": true,
+  "message": "获取用户信息成功",
+  "user": {
+    "id": 1,
+    "username": "用户名",
+    "user_id": "userid",
+    "email": "user@example.com",
+    "bio": "个人简介",
+    "avatar_url": "https://more.jsoftstudio.top/uploads/images/default/avatar.svg"
+  }
+}
+```
+
+失败响应:
+
+```json
+{
+  "success": false,
+  "message": "错误信息"
+}
+```
 
 错误码说明
 
@@ -450,6 +486,41 @@ def test_oauth_flow_with_debug():
                                 print(f"✓ 获取访问令牌成功: {access_token}")
                                 print(f"令牌类型: {token_type}")
                                 print(f"过期时间: {expires_in}秒")
+                                
+                                # 步骤4: 使用访问令牌获取用户信息
+                                print("\n步骤4: 使用访问令牌获取用户信息...")
+                                url_token_user = f"{BASE_URL}/api/oauth/token/user"
+                                
+                                # 创建带有Bearer认证的请求头
+                                token_headers = {
+                                    "X-API-Key": API_KEY,
+                                    "Content-Type": "application/json",
+                                    "Authorization": f"{token_type} {access_token}"
+                                }
+                                
+                                print(f"正在发送请求到: {url_token_user}")
+                                print(f"请求头: {token_headers}")
+                                
+                                response_token_user = session.get(url_token_user, headers=token_headers)
+                                
+                                print(f"\nHTTP状态码: {response_token_user.status_code}")
+                                print(f"响应内容: {response_token_user.text}")
+                                
+                                try:
+                                    user_data = response_token_user.json()
+                                    print(f"\n解析后的响应: {json.dumps(user_data, indent=2, ensure_ascii=False)}")
+                                    
+                                    if user_data.get('success'):
+                                        user_info = user_data.get('user', {})
+                                        print(f"✓ 获取用户信息成功")
+                                        print(f"用户ID: {user_info.get('id')}")
+                                        print(f"用户名: {user_info.get('username')}")
+                                        print(f"用户标识: {user_info.get('user_id')}")
+                                        print(f"邮箱: {user_info.get('email')}")
+                                    else:
+                                        print(f"✗ 获取用户信息失败: {user_data.get('message')}")
+                                except json.JSONDecodeError:
+                                    print("\n无法解析用户信息响应的JSON")
                             else:
                                 print(f"✗ 获取访问令牌失败: {token_data.get('message')}")
                         except json.JSONDecodeError:
@@ -600,6 +671,37 @@ def test_oauth_safe_login_flow():
         print(f"✓ 获取访问令牌成功: {access_token}")
         print("="*60)
         print("🎉 OAuth安全登录流程测试成功完成！")
+        
+        # 使用访问令牌获取用户信息
+        print("\n✓ 使用访问令牌获取用户信息")
+        token_user_url = f"{BASE_URL}/api/oauth/token/user"
+        print(f"  请求URL: {token_user_url}")
+        
+        # 创建带有Bearer认证的请求头
+        token_headers = {
+            "X-API-Key": API_KEY,
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {access_token}"
+        }
+        
+        response = session.get(token_user_url, headers=token_headers)
+        print(f"  响应状态码: {response.status_code}")
+        
+        try:
+            user_data = response.json()
+            print(f"  响应内容: {json.dumps(user_data, ensure_ascii=False)}")
+            
+            if user_data.get('success'):
+                user_info = user_data.get('user', {})
+                print(f"  ✓ 获取用户信息成功")
+                print(f"  用户ID: {user_info.get('id')}")
+                print(f"  用户名: {user_info.get('username')}")
+                print(f"  用户标识: {user_info.get('user_id')}")
+                print(f"  邮箱: {user_info.get('email')}")
+            else:
+                print(f"  ✗ 获取用户信息失败: {user_data.get('message')}")
+        except json.JSONDecodeError:
+            print("  ✗ 无法解析用户信息响应的JSON")
         
         return {
             'access_token': access_token,
@@ -908,6 +1010,49 @@ async function testOauthFlowWithDebug() {
                                 console.log(`✓ 获取访问令牌成功: ${accessToken}`);
                                 console.log(`令牌类型: ${tokenType}`);
                                 console.log(`过期时间: ${expiresIn}秒`);
+                                
+                                // 步骤4: 使用访问令牌获取用户信息
+                                console.log("\n步骤4: 使用访问令牌获取用户信息...");
+                                const urlTokenUser = `${BASE_URL}/api/oauth/token/user`;
+                                
+                                // 创建带有Bearer认证的请求头
+                                const tokenHeaders = {
+                                    "X-API-Key": API_KEY,
+                                    "Content-Type": "application/json",
+                                    "Authorization": `${tokenType} ${accessToken}`
+                                };
+                                
+                                console.log(`正在发送请求到: ${urlTokenUser}`);
+                                console.log(`请求头:`, tokenHeaders);
+                                
+                                const responseTokenUser = await fetch(urlTokenUser, {
+                                    method: 'GET',
+                                    headers: tokenHeaders
+                                });
+                                
+                                console.log(`\nHTTP状态码: ${responseTokenUser.status}`);
+                                
+                                const userText = await responseTokenUser.text();
+                                console.log(`响应内容: ${userText}`);
+                                
+                                try {
+                                    const userData = JSON.parse(userText);
+                                    console.log(`\n解析后的响应:`, JSON.stringify(userData, null, 2));
+                                    
+                                    if (userData.success) {
+                                        const userInfo = userData.user || {};
+                                        console.log(`✓ 获取用户信息成功`);
+                                        console.log(`用户ID: ${userInfo.id || '未设置'}`);
+                                        console.log(`用户名: ${userInfo.username || '未设置'}`);
+                                        console.log(`用户标识: ${userInfo.user_id || '未设置'}`);
+                                        console.log(`邮箱: ${userInfo.email || '未设置'}`);
+                                    } else {
+                                        console.log(`✗ 获取用户信息失败: ${userData.message || '未知错误'}`);
+                                    }
+                                } catch (jsonError) {
+                                    console.log("\n无法解析用户信息响应的JSON");
+                                    console.error(jsonError);
+                                }
                             } else {
                                 console.log(`✗ 获取访问令牌失败: ${tokenData.message || '未知错误'}`);
                             }
@@ -1101,7 +1246,50 @@ async function testOAuthSafeLoginFlow() {
                                 console.log(`✓ 获取访问令牌成功: ${accessToken}`);
                                 console.log(`令牌类型: ${tokenType}`);
                                 console.log(`过期时间: ${expiresIn}秒`);
-                                console.log("=".repeat(60));
+                                
+                                // 使用访问令牌获取用户信息
+                                console.log("\n✓ 使用访问令牌获取用户信息");
+                                const tokenUserUrl = `${BASE_URL}/api/oauth/token/user`;
+                                
+                                // 创建带有Bearer认证的请求头
+                                const tokenHeaders = {
+                                    ...headers,
+                                    "Authorization": `${tokenType} ${accessToken}`
+                                };
+                                
+                                console.log(`正在发送请求到: ${tokenUserUrl}`);
+                                console.log(`请求头:`, tokenHeaders);
+                                
+                                const userResponse = await fetch(tokenUserUrl, {
+                                    method: 'GET',
+                                    headers: tokenHeaders
+                                });
+                                
+                                console.log(`\nHTTP状态码: ${userResponse.status}`);
+                                
+                                const userText = await userResponse.text();
+                                console.log(`响应内容: ${userText}`);
+                                
+                                try {
+                                    const userData = JSON.parse(userText);
+                                    console.log(`\n解析后的响应:`, JSON.stringify(userData, null, 2));
+                                    
+                                    if (userData.success) {
+                                        const userInfo = userData.user || {};
+                                        console.log(`✓ 获取用户信息成功`);
+                                        console.log(`用户ID: ${userInfo.id || '未设置'}`);
+                                        console.log(`用户名: ${userInfo.username || '未设置'}`);
+                                        console.log(`用户标识: ${userInfo.user_id || '未设置'}`);
+                                        console.log(`邮箱: ${userInfo.email || '未设置'}`);
+                                    } else {
+                                        console.log(`✗ 获取用户信息失败: ${userData.message || '未知错误'}`);
+                                    }
+                                } catch (jsonError) {
+                                    console.log("\n无法解析用户信息响应的JSON");
+                                    console.error(jsonError);
+                                }
+                                
+                                console.log("="*60);
                                 console.log("🎉 OAuth安全登录流程测试成功完成！");
                             } else {
                                 console.log(`✗ 获取访问令牌失败: ${tokenData.message || '未知错误'}`);
@@ -1272,5 +1460,5 @@ console.log("==== OAuth 流程测试 ====");
 2. 所有API调用必须使用HTTPS协议
 3. 请合理处理API响应，特别是错误情况
 4. state参数用于防止CSRF攻击，请确保正确传递和验证
-5. 授权码有效期为10分钟，访问令牌有效期为1小时
+5. 授权码有效期为10分钟，访问令牌有效期为10天
 6. 完成授权后，建议将state参数存储在安全的位置，直到整个授权流程完成
