@@ -220,7 +220,7 @@ URL: /api/oauth/user/info
   "message": "获取用户信息成功",
   "user": {
     "username": "用户名",
-    "avatar_url": "https://more.jsoftstudio.top/uploads/images/default/avatar.svg"
+    "avatar_url": "/static/uploads/images/default/avatar.svg"
   }
 }
 ```
@@ -358,7 +358,7 @@ URL: /api/oauth/token/user
     "user_id": "userid",
     "email": "user@example.com",
     "bio": "个人简介",
-    "avatar_url": "https://more.jsoftstudio.top/uploads/images/default/avatar.svg"
+    "avatar_url": "/static/uploads/images/default/avatar.svg"
   }
 }
 ```
