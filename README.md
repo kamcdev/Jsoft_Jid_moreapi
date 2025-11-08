@@ -51,7 +51,7 @@ Moreid API 文档
 X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-如需API密钥，请前往[MoreLine - 开放平台](https://more.jsoftstudio.top/open)申请，当前api接口为测试阶段，仅进行小范围邀请测试
+如需API密钥，请前往[MoreLine - 开放平台](https://more.jsoftstudio.top/open)申请
 
 系统将验证API密钥的有效性。此外，系统还会根据API密钥配置的白名单IP进行来源验证：
 
