@@ -19,28 +19,28 @@ Moreid API 文档
 
 - [认证方式](#认证方式)
 - [API端点](#api端点)
-  - [1. OAuth授权初始化](#1-oauth授权初始化)
-  - [2. 用户登录获取授权码](#2-用户登录获取授权码)
-  - [3. 使用授权码获取访问令牌](#3-使用授权码获取访问令牌)
-  - [4. 用户信息修改](#4-用户信息修改)
-  - [5. 获取用户信息](#5-获取用户信息)
-  - [6. 获取一次性确认码](#6-获取一次性确认码)
-  - [7. 用户确认页面](#7-用户确认页面)
-  - [8. 生成登录码](#8-生成登录码)
-  - [9. 安全登录接口](#9-安全登录接口)
-  - [10 使用访问令牌获取用户信息](#10-使用访问令牌获取用户信息)
+- [1. OAuth授权初始化](#1-oauth授权初始化)
+- [2. 用户登录获取授权码](#2-用户登录获取授权码)
+- [3. 使用授权码获取访问令牌](#3-使用授权码获取访问令牌)
+- [4. 用户信息修改](#4-用户信息修改)
+- [5. 获取用户信息](#5-获取用户信息)
+- [6. 获取一次性确认码](#6-获取一次性确认码)
+- [7. 用户确认页面](#7-用户确认页面)
+- [8. 生成登录码](#8-生成登录码)
+- [9. 安全登录接口](#9-安全登录接口)
+- [10. 使用访问令牌获取用户信息](#10-使用访问令牌获取用户信息)
 - [错误码说明](#错误码说明)
 - [使用示例](#使用示例)
-  - [使用Python调用API](#使用python调用api)
-    - [使用Python调用OAuth登录流程](#使用python调用oauth登录流程)
-    - [使用Python调用OAuth安全登录流程](#使用python调用oauth安全登录流程)
-    - [使用Python调用信息修改API（以修改用户名为例）](#使用python调用信息修改api以修改用户名为例)
-    - [使用Python调用获取用户信息API](#使用python调用获取用户信息api)
-  - [使用JavaScript调用API](#使用javascript调用api)
-    - [使用JavaScript调用OAuth登录流程](#使用javascript调用oauth登录流程)
-    - [使用JavaScript调用OAuth安全登录流程](#使用javascript调用oauth安全登录流程)
-    - [使用JavaScript调用信息修改API（以修改用户名为例）](#使用javascript调用信息修改api以修改用户名为例)
-    - [使用JavaScript调用获取用户信息API](#使用javascript调用获取用户信息api)
+- [使用Python调用API](#使用python调用api)
+- [使用Python调用OAuth登录流程](#使用python调用oauth登录流程)
+- [使用Python调用OAuth安全登录流程](#使用python调用oauth安全登录流程)
+- [使用Python调用信息修改API（以修改用户名为例）](#使用python调用信息修改api以修改用户名为例)
+- [使用Python调用获取用户信息API](#使用python调用获取用户信息api)
+- [使用JavaScript调用API](#使用javascript调用api)
+- [使用JavaScript调用OAuth登录流程](#使用javascript调用oauth登录流程)
+- [使用JavaScript调用OAuth安全登录流程](#使用javascript调用oauth安全登录流程)
+- [使用JavaScript调用信息修改API（以修改用户名为例）](#使用javascript调用信息修改api以修改用户名为例)
+- [使用JavaScript调用获取用户信息API](#使用javascript调用获取用户信息api)
 - [注意事项](#注意事项)
 
 ## <a id="认证方式"></a>认证方式
@@ -67,6 +67,10 @@ X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 URL: /api/oauth/authorize
 方法:GET
 格式:application/json
+
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
 
 请求参数:
 
@@ -96,6 +100,10 @@ URL: /api/oauth/authorize
 URL: /api/oauth/login
 方法:POST
 格式:application/json
+
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
 
 请求参数:
 
@@ -134,6 +142,10 @@ URL: /api/oauth/token
 方法:POST
 格式:application/json
 
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
+
 请求参数:
 
 · code: 授权码
@@ -168,6 +180,7 @@ URL: /api/oauth/user/update
 
 请求头:
 
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
 · Authorization: Bearer {access_token} - 必须提供有效的访问令牌
 
 请求参数:
@@ -208,6 +221,10 @@ URL: /api/oauth/user/info
 方法:POST
 格式:application/json
 
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
+
 请求参数:
 
 · user_id: 用户ID（必填）
@@ -240,6 +257,10 @@ URL: /api/oauth/ucaoncecode
 方法:POST
 格式:application/json
 
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
+
 请求参数:
 
 · state: 从授权初始化接口获取的state值
@@ -268,6 +289,10 @@ URL: /api/oauth/ucaoncecode
 URL: /api/oauth/user_confirmation
 方法:GET
 
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
+
 请求参数:
 
 · uca: 一次性确认码
@@ -277,6 +302,10 @@ URL: /api/oauth/user_confirmation
 URL: /api/oauth/generate_login_code
 方法:POST
 格式:application/json
+
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
 
 请求参数:
 
@@ -306,6 +335,10 @@ URL: /api/oauth/generate_login_code
 URL: /api/oauth/login_safe
 方法:POST
 格式:application/json
+
+请求头:
+
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
 
 请求参数:
 
@@ -344,6 +377,7 @@ URL: /api/oauth/token/user
 
 请求头:
 
+· X-API-Key: ml_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx - 必须提供有效的API密钥
 · Authorization: Bearer {access_token} - 必须提供有效的访问令牌
 
 成功响应:
